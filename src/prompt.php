@@ -19,15 +19,18 @@ add("path", $style_path, [
 ]);
 
 // Git status
-add("git", $style_vcs);
+add("git", $style_vcs, [
+    GIT_SHOW_TAG=>true
+]);
 
 // Free diskspace
-add("diskfree");
+// add("diskfree");
+
 
 // Current time
-add(function () {
-    return "🕒 ".date('H:i');
-}, style(BLACK,WHITE));
+// add(function () {
+//  return "🕒 ".date('H:i');
+// style(BLACK,WHITE)); */
 
 // Status indicator
 add("status");
