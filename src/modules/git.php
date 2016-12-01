@@ -1,10 +1,11 @@
 <?php
 
-define("ICON_GIT_BRANCH_SYMBOL","⑂");
-define("ICON_GIT_BRANCH_CHANGED_SYMBOL","🗘");
-define("ICON_GIT_NEED_PUSH_SYMBOL","⇡");
-define("ICON_GIT_NEED_PULL_SYMBOL","⇣");
-define("ICON_GIT_TAG","🗋 ");
+define("ICON_GIT_BRANCH_SYMBOL",""); // "⑂");
+define("ICON_GIT_BRANCH_CHANGED_SYMBOL",""); //🗘");
+define("ICON_GIT_BRANCH_CURRENT","");
+define("ICON_GIT_NEED_PUSH_SYMBOL"," "); // ⇡");
+define("ICON_GIT_NEED_PULL_SYMBOL",""); // "⇣");
+define("ICON_GIT_TAG"," ");
 
 define("GIT_SHOW_TAG", "show_tag");
 define("GIT_SHOW_STATUS", "show_status");
@@ -28,6 +29,8 @@ function mod_git(array $opts=[]) {
         exec("{$git} status --porcelain --branch", $status);
         if (count($status)>1)
             $marks[] = ICON_GIT_BRANCH_CHANGED_SYMBOL;
+        else
+            $marks[] = ICON_GIT_BRANCH_CURRENT;
         if (preg_match('/\[ahead ([0-9]+)\]/', $status[0], $match))
             $marks[] = ICON_GIT_NEED_PUSH_SYMBOL.$match[1];
         if (preg_match('/\[behind ([0-9]+)\]/', $status[0], $match))
