@@ -41,8 +41,8 @@ function style($fg=NONE,$bg=NONE,$attr=NONE) {
     if ($attr>0) {
         if (($attr & BOLD) == BOLD) $sgr[] = "1";
     }
-    $pre = (count($sgr)>0)?"\e[".join(";",$sgr)."m":"";
-    $post = (count($sgr)>0)?"\e[0m":"";
+    $pre = (count($sgr)>0)?"\[\e[".join(";",$sgr)."m\]":"";
+    $post = (count($sgr)>0)?"\[\e[0m\]":"";
     return function ($text) use ($pre,$post) {
         return "{$pre} {$text} {$post}";
     };

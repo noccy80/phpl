@@ -1,10 +1,10 @@
 <?php
 
 define("ICON_GIT_BRANCH_SYMBOL",""); // "⑂");
-define("ICON_GIT_BRANCH_CHANGED_SYMBOL",""); //🗘");
+define("ICON_GIT_BRANCH_CHANGED_SYMBOL",""); // "); //🗘");
 define("ICON_GIT_BRANCH_CURRENT","");
-define("ICON_GIT_NEED_PUSH_SYMBOL"," "); // ⇡");
-define("ICON_GIT_NEED_PULL_SYMBOL",""); // "⇣");
+define("ICON_GIT_NEED_PUSH_SYMBOL",""); // ⇡");
+define("ICON_GIT_NEED_PULL_SYMBOL",""); // "⇣");
 define("ICON_GIT_TAG"," ");
 
 define("GIT_SHOW_TAG", "show_tag");

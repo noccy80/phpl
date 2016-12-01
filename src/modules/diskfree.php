@@ -22,7 +22,9 @@ function mod_diskfree(array $opts=[]) {
     do {
         $unit = array_shift($units);
         if (($free < 1024) || (count($units)==0)) {
-            return [ sprintf(" %.1f%s", $free, $unit), $style ];
+            $icon = ""; // 
+
+            return [ sprintf("{$icon} %.1f%s", $free, $unit), $style ];
         }
         $free /= 1024;
     } while (true);
