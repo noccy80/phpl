@@ -1,0 +1,74 @@
+#!/usr/bin/env php
+<?php
+
+define("EXIT_STATUS", isset($argv[1])?intval($argv[1]):0);
+define("WORKING_DIR", isset($argv[2])?$argv[2]:getcwd());
+
+$colors = [
+    "NONE"      => -1,
+    "BLACK"     => 0,
+    "RED"       => 1,
+    "GREEN"     => 2,
+    "YELLOW"    => 3,
+    "BLUE"      => 4,
+    "MAGENTA"   => 5,
+    "CYAN"      => 6,
+    "WHITE"     => 7,
+    "GRAY"      => 8,
+    "BR_RED"    => 9,
+    "BR_GREEN"  => 10,
+    "BR_YELLOW" => 11,
+    "BR_BLUE"   => 12,
+    "BR_MAGENTA"=> 13,
+    "BR_CYAN"   => 14,
+    "BR_WHITE"  => 14,
+    "BOLD"      => 1,
+];
+foreach ($colors as $name=>$index) define($name, $index);
+
+function module($name) {
+    require_once __DIR__."/modules/{$name}.php";
+}
+
+function style($fg=NONE,$bg=NONE,$attr=NONE) {
+    $sgr=[];
+    if ($fg>NONE) {
+        $sgr[] = ($fg>=8)?83+$fg:30+$fg;
+    }
+    if ($bg>NONE) {
+        $sgr[] = ($bg>=8)?93+$bg:40+$bg;
+    }
+    if ($attr>0) {
+        if (($attr & BOLD) == BOLD) $sgr[] = "1";
+    }
+    $pre = (count($sgr)>0)?"\e[".join(";",$sgr)."m":"";
+    $post = (count($sgr)>0)?"\e[0m":"";
+    return function ($text) use ($pre,$post) {
+        return "{$pre} {$text} {$post}";
+    };
+}
+
+$_blocks = [];
+
+function add($block,$style,...$args) {
+    global $_blocks;
+    
+    if (is_callable($block)) {
+        $text = $block(...$args);
+    } elseif (is_callable("mod_{$block}")) {
+        $text = call_user_func("mod_{$block}", ...$args);
+    }
+    if ($text && is_callable($style)) {
+        $text = $style($text);
+    }
+
+    if ($text) {
+        $_blocks[] = $text;
+    }
+
+}
+
+require_once __DIR__."/modules/common.php";
+require_once __DIR__."/prompt.php";
+
+echo join("",$_blocks)." ";

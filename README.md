@@ -1,0 +1,5 @@
+PowerLine: Customizable bash prompt
+===================================
+
+
+
