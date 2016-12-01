@@ -3,13 +3,31 @@
 // Import modules
 module("common");
 module("git");
+module("diskfree");
 
+// Define styles
 $style_path = style(BR_WHITE, CYAN);
 $style_vcs = style(BR_WHITE, BLUE);
 
+
+// --- Modules ------------------------------------------------------
+
+// Current working directory
 add("path", $style_path, [
     PATH_SHORTEN => true,
     PATH_LENGTH => 40,
 ]);
+
+// Git status
 add("git", $style_vcs);
-add("status", EXIT_STATUS?style(BR_WHITE,RED):style(BR_WHITE,GREEN));
+
+// Free diskspace
+add("diskfree");
+
+// Current time
+add(function () {
+    return "🕒 ".date('H:i');
+}, style(BLACK,WHITE));
+
+// Status indicator
+add("status");
