@@ -53,6 +53,7 @@ $_blocks = [];
 function add($block,$style,...$args) {
     global $_blocks;
     
+    $ts = microtime(true);
     if (is_callable($block)) {
         $text = $block(...$args);
     } elseif (is_callable("mod_{$block}")) {
@@ -65,6 +66,10 @@ function add($block,$style,...$args) {
     if ($text) {
         $_blocks[] = $text;
     }
+    
+    $te = microtime(true);
+    
+    // fprintf(STDERR, "%s: %.1f\n", $block, ($te-$ts)*1000);
 
 }
 

@@ -1,6 +1,6 @@
 
 
-export POWERLINE="$(cd $(dirname $0) && pwd)"
+export POWERLINE="$(cd $(dirname $BASH_SOURCE) && pwd)"
 function _updateprompt {
     export PS1="$($POWERLINE/genprompt $? $(pwd))"
 }
