@@ -2,7 +2,8 @@
 <?php
 
 define("EXIT_STATUS", isset($argv[1])?intval($argv[1]):0);
-define("WORKING_DIR", isset($argv[2])?$argv[2]:getcwd());
+$WD = getenv("BASH_WD");
+define("WORKING_DIR", $WD?$WD:getcwd());
 
 $colors = [
     "NONE"      => -1,

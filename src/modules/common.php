@@ -36,9 +36,15 @@ function mod_path(array $opts=[]) {
         $cwd = "~".substr($cwd,strlen($home));
     } elseif ($opts[PATH_SHORTEN]) {
         if (strlen($cwd)>$opts[PATH_LENGTH]) {
-            $cwd = "...".substr($cwd,-$opts[PATH_LENGTH]);
+            $cwd = "◂".substr($cwd,-$opts[PATH_LENGTH]);
         }
     }
     
     return $cwd;
+}
+
+function mod_loadavg() {
+
+    return sprintf(" %s",sys_getloadavg()[0]);
+
 }

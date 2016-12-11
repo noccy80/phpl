@@ -24,13 +24,15 @@ add("git", $style_vcs, [
 ]);
 
 // Free diskspace
-// add("diskfree");
+//add("diskfree");
 
 
 // Current time
 // add(function () {
 //  return "🕒 ".date('H:i');
 // style(BLACK,WHITE)); */
+
+add("loadavg", style(BR_YELLOW,GRAY));
 
 // Status indicator
 add("status");
