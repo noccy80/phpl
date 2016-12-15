@@ -1,0 +1,11 @@
+* {
+    color: black;
+    background: white;
+    pad-before: 1;
+    pad-after: 1;
+}
+
+path {
+    background: gray;
+    color: bright-white;
+}
