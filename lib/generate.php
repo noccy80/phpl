@@ -186,8 +186,13 @@ function style($fg=NONE,$bg=NONE,$attr=NONE) {
     if ($attr>0) {
         if (($attr & BOLD) == BOLD) $sgr[] = "1";
     }
-    $pre = (count($sgr)>0)?"\[\e[".join(";",$sgr)."m\]":"";
-    $post = (count($sgr)>0)?"\[\e[0m\]":"";
+    if (defined('PROMPT_RAW') && PROMPT_RAW) {
+        $pre = (count($sgr)>0)?"\e[".join(";",$sgr)."m":"";
+        $post = (count($sgr)>0)?"\e[0m":"";
+    } else {
+        $pre = (count($sgr)>0)?"\[\e[".join(";",$sgr)."m\]":"";
+        $post = (count($sgr)>0)?"\[\e[0m\]":"";
+    }
     return function ($text) use ($pre,$post) {
         return "{$pre}{$text}{$post}";
     };

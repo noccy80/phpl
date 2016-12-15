@@ -4,8 +4,22 @@
     pad-before: 1;
     pad-after: 1;
 }
-
 path {
     background: gray;
     color: bright-white;
+}
+.vcs {
+    color: black;
+}
+.good {
+    color: gray;
+}
+.bad {
+    color: red;
+}
+.system {
+    color: gray;
+}
+.info {
+    color: gray;
 }

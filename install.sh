@@ -2,6 +2,11 @@
 
 INSTALL_DIR=~/.powerline
 
+if [ -z "$(which php)" ]; then
+    echo "Error: PHP not found. Please install php-cli and try again."
+    exit 1
+fi
+
 if [ ! -d $INSTALL_DIR ]; then
     echo "Creating directory: $INSTALL_DIR"
     mkdir -p $INSTALL_DIR

@@ -1,3 +1,4 @@
+// Defaults, applies to everything
 * {
     color: bright-white;
     background: cyan;
@@ -5,23 +6,29 @@
     pad-after: 1;
 }
 
+// Style the path panel
 path {
     background: cyan;
 }
 
+// Style the loadavg panel
 loadavg {
     color: bright-yellow;
     background: gray;
 }
 
-.vcs {
-    background: blue;
-}
-
-.system {
+// Style the diskfree panel, with health indicator
+diskfree {
     background: gray;
 }
+diskfree.good {
+    color: green;
+}
+diskfree.bad {
+    color: bright-red;
+}
 
+// Style the status panel, with health indicator
 status {
     color: bright-white;
 }
@@ -31,4 +38,20 @@ status.good {
 status.bad {
     background: red;
 }
+
+// This is the default class for vcs modules like git, svn, hg, ..
+.vcs {
+    background: blue;
+}
+
+// This is the default class for system information (if not good or bad)
+.system {
+    background: gray;
+}
+
+// This is the default class for informatin items (text, time, etc)
+.info {
+    background: gray;
+}
+
 

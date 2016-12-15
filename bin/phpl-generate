@@ -10,11 +10,13 @@ function print_help() {
     printf("Options:    -h,--help               Show this help\n");
     printf("            -d,--dir <path>         Specify working directory\n");
     printf("            -s,--status <code>      Status of last command\n");
+    printf("            -r,--raw                Don't escape ansi for PS1\n");
     printf("\n");
 }
 
-$opts = cmdl_parse("hd:s:",[
+$opts = cmdl_parse("hd:s:r",[
     "h" =>  "help",
+    "r" =>  "raw",
     "d" =>  "dir:",
     "s" =>  "status:",
 ]);
@@ -23,6 +25,7 @@ if (cmdl_get($opts,'help')) {
     print_help();
     exit(0);
 }
+define("PROMPT_RAW", (cmdl_get($opts,'raw')));
 
 define("WORKING_DIR", cmdl_get($opts,'dir')?:getcwd());
 define("LAST_STATUS", max(0,(int)cmdl_get($opts,'status')));

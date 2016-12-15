@@ -22,9 +22,7 @@ function print_help() {
     printf("            -a,--after <name>       Insert after specified item\n");
     printf("            -s,--set <key>=<val>    Configure php-powerline or an item (when with --edit)\n");
     printf("            -n,--name <name>        Override name\n");
-    printf("            --class <name>          Use theme class name for displaying item\n");
     printf("            -n,--no-reload          Don't reload the prompt after edit\n");
-    printf("            -v[vv],--verbose        Be verbose\n");
     printf("\n");
     printf("Examples:   -igit -stag=true -sbranch=true -bstatus\n");
     printf("                Add the git module to the prompt, include tag and branch, place before status\n");
@@ -32,7 +30,6 @@ function print_help() {
 
 $opts = cmdl_parse("hvi:d:e:a:b:s:t:n:lLE",[
     "h" => "help",
-    "v" => "verbose",
     "i" => "insert:",
     "d" => "delete:",
     "e" => "edit:",
@@ -56,6 +53,7 @@ if (cmdl_get($opts,'help')) {
 
 define("VERBOSE", (int)cmdl_get($opts,'verbose'));
 define("RELOAD", !cmdl_get($opts,'no-reload'));
+define("QUIET", false);
 
 define("WORKING_DIR", cmdl_get($opts,'dir')?:getcwd());
 define("LAST_STATUS", 0);
@@ -80,13 +78,13 @@ if (cmdl_get($opts,'list')) {
         foreach ($item[2] as $k=>$v) {
             $attrs[] = sprintf("%s=%s", $k, $v);
         }
-        $attr = join("\n    ",$attrs);
-        printf("  %-10s name:%-10s  [%s]\n    %s\n", $item[0], $item[1], demo($item), $attr);
+        $attr = join(" ",$attrs);
+        printf("  \e[1m%-15s\e[0m %-15s [\e[37;44m%s\e[0m]\n    %s\n", $item[0], $item[1], demo($item), $attr);
     }
 } elseif (cmdl_get($opts,'list-modules')) {
     printf("Available modules:\n");
     foreach ($_MODULES as $module) {
-        printf(" - %s: %s\n", $module->name, $module->info);
+        printf(" - \e[1m%s\e[0m: %s\n", $module->name, $module->info);
         foreach ($module->opts as $opt) {
             printf("    + <%s>%s - %s (default:%s)\n", $opt->type, $opt->name, $opt->descr, $opt->def);
         }

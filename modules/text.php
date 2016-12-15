@@ -10,4 +10,4 @@ function _text(array $opts) {
 }
 module("text", "Show a text");
 option("text", TEXT_TEXT, "string", "The text to dispaly", "Text");
-option("class", TEXT_CLASS, "string", "The class to use", "");
+option("class", TEXT_CLASS, "string", "The class to use", "info");

@@ -8,7 +8,7 @@ function _diskfree(array $opts=[]) {
     $total = disk_total_space(WORKING_DIR);
     $pc = (100/$total)*$free;
 
-    $class = ($pc<5)?'low':'good';
+    $class = ($pc<5)?'bad':'good';
     
     $units = [ "B", "KB", "MB", "GB" ];
     do {
