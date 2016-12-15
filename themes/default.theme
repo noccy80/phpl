@@ -1,0 +1,38 @@
+* {
+    color: bright-white;
+    background: cyan;
+    pad-before: 1;
+    pad-after: 1;
+}
+
+path {
+    background: cyan;
+}
+
+.vcs {
+    background: blue;
+}
+
+.system {
+    background: gray;
+}
+
+status {
+    color: bright-white;
+}
+status.good {
+    background: green;
+}
+status.bad {
+    background: red;
+}
+
+loadavg {
+    color: bright-yellow;
+    background: gray;
+}
+
+text.test {
+    background: white;
+    color: black;
+}

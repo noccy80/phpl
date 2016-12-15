@@ -1,0 +1,157 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__."/../lib/bootstrap.php";
+require_once __DIR__."/../lib/config.php";
+require_once __DIR__."/../lib/generate.php";
+
+function print_help() {
+    printf("phpl-edit: Edit php-powerline prompt\n\n");
+    printf("Usage:      %s <mode> [options..]\n", basename($GLOBALS['argv'][0]));
+    printf("\n");
+    printf("Modes:      -i,--insert <type>      Insert a module\n");
+    printf("            -d,--delete <name>      Delete a module\n");
+    printf("            -e,--edit <name>        Edit a module\n");
+    printf("            -l,--list               List enabled modules\n");
+    printf("            -L,--list-modules       List available modules and options\n");
+    printf("            -E                      Open configuration file in text editor\n");
+    printf("            --theme <name>          Change the color theme\n");
+    printf("            -h,--help               Show this help\n");
+    printf("\n");
+    printf("Options:    -b,--before <name>      Insert before specified item\n");
+    printf("            -a,--after <name>       Insert after specified item\n");
+    printf("            -s,--set <key>=<val>    Configure php-powerline or an item (when with --edit)\n");
+    printf("            -n,--name <name>        Override name\n");
+    printf("            --class <name>          Use theme class name for displaying item\n");
+    printf("            -n,--no-reload          Don't reload the prompt after edit\n");
+    printf("            -v[vv],--verbose        Be verbose\n");
+    printf("\n");
+    printf("Examples:   -igit -stag=true -sbranch=true -bstatus\n");
+    printf("                Add the git module to the prompt, include tag and branch, place before status\n");
+}
+
+$opts = cmdl_parse("hvi:d:e:a:b:s:t:n:lLE",[
+    "h" => "help",
+    "v" => "verbose",
+    "i" => "insert:",
+    "d" => "delete:",
+    "e" => "edit:",
+    "a" => "after:",
+    "b" => "before:",
+           "first",
+           "last",
+    "s" => "set:",
+    "n" => "name:",
+    "N" => "no-reload",
+           "class:",
+    "l" => "list",
+    "L" => "list-modules",
+           "theme:"
+]);
+
+if (cmdl_get($opts,'help')) {
+    print_help();
+    exit(0);
+}
+
+define("VERBOSE", (int)cmdl_get($opts,'verbose'));
+define("RELOAD", !cmdl_get($opts,'no-reload'));
+
+define("WORKING_DIR", cmdl_get($opts,'dir')?:getcwd());
+define("LAST_STATUS", 0);
+
+/*
+if (!file_exists(PHPL_CONFIG)) {
+    printf("The configuration file %s does not exist, creating default.\n", PHPL_CONFIG);
+    config_write();
+} else {
+    config_read();
+}
+*/
+
+config_read();
+scan_modules();
+
+if (cmdl_get($opts,'list')) {
+    $items = config_item_list();
+    printf("Current items:\n");
+    foreach ($items as $item) {
+        $attrs = [];
+        foreach ($item[2] as $k=>$v) {
+            $attrs[] = sprintf("%s=%s", $k, $v);
+        }
+        $attr = join("\n    ",$attrs);
+        printf("  %-10s name:%-10s  [%s]\n    %s\n", $item[0], $item[1], demo($item), $attr);
+    }
+} elseif (cmdl_get($opts,'list-modules')) {
+    printf("Available modules:\n");
+    foreach ($_MODULES as $module) {
+        printf(" - %s: %s\n", $module->name, $module->info);
+        foreach ($module->opts as $opt) {
+            printf("    + <%s>%s - %s (default:%s)\n", $opt->type, $opt->name, $opt->descr, $opt->def);
+        }
+    }
+} elseif (($delete = cmdl_get($opts,'delete'))) {
+    config_item_delete($delete);
+    config_write();
+    if (RELOAD) passthru("phpl-reload --prompt");
+} elseif (($insert = cmdl_get($opts,'insert'))) {
+    if (($before = cmdl_get($opts,'before'))) {
+        $pos = [ 'before', $before ];
+    } elseif (($after = cmdl_get($opts,'after'))) {
+        $pos = [ 'after', $after ];
+    } elseif (cmdl_get($opts,'first')) {
+        $pos = [ 'first', null ];
+    } elseif (cmdl_get($opts,'last')) {
+        $pos = [ 'last', null ];
+    } else {
+        $pos = [ 'best', null ];
+    }
+    
+    $attrs = (array)cmdl_get($opts,'set'); $attr = [];
+    foreach ($attrs as $astr) {
+        if (strpos($astr,'=')===false) {
+            if (!is_string($astr)) continue;
+            $attr[$astr] = true;
+        } else {
+            list($k,$v) = explode("=",$astr,2);
+            $attr[$k] = $v;
+        }
+    }
+    
+    $name = cmdl_get($opts,'name')?:$insert;
+    config_item_add($insert,$name,$pos,$attr);
+    config_write();
+    if (RELOAD) passthru("phpl-reload --prompt");
+} elseif (($edit = cmdl_get($opts,'edit'))) {
+
+    $attrs = (array)cmdl_get($opts,'set'); $attr = [];
+    foreach ($attrs as $astr) {
+        if (strpos($astr,'=')===false) {
+            if (!is_string($astr)) continue;
+            $attr[$astr] = true;
+        } else {
+            list($k,$v) = explode("=",$astr,2);
+            $attr[$k] = $v;
+        }
+    }
+    
+    config_item_edit($edit,$attr);
+    config_write();
+    if (RELOAD) passthru("phpl-reload --prompt");
+} elseif (cmdl_get($opts,'E')) {
+    passthru("editor ".escapeshellarg(PHPL_CONFIG));
+    if (RELOAD) passthru("phpl-reload --prompt");
+} else {
+    print_help();
+}
+
+
+if (($theme = cmdl_get($opts,'theme'))) {
+    if (!file_exists(PHPL_THEMES."/{$theme}.theme")) {
+        printf("Error: No such theme, %s\n", $theme);
+        exit(1);
+    }
+    $_CONFIG['theme'] = $theme;
+    config_write();
+}

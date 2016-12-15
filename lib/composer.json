@@ -1,0 +1,5 @@
+{
+    "require": {
+        "noccylabs/sdl": "~2.0"
+    }
+}

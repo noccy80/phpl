@@ -1,0 +1,32 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__."/../lib/bootstrap.php";
+
+function print_help() {
+    printf("phpl-generate: Generate prompt\n\n");
+    printf("Usage:      %s [options..]\n", basename($GLOBALS['argv'][0]));
+    printf("\n");
+    printf("Options:    -h,--help               Show this help\n");
+    printf("            -d,--dir <path>         Specify working directory\n");
+    printf("            -s,--status <code>      Status of last command\n");
+    printf("\n");
+}
+
+$opts = cmdl_parse("hr:",[
+    "h" =>  "help",
+    "r" =>  "read:",
+]);
+
+if (cmdl_get($opts,'help')) {
+    print_help();
+    exit(0);
+}
+
+define("WORKING_DIR", cmdl_get($opts,'dir')?:getcwd());
+define("LAST_STATUS", max(0,(int)cmdl_get($opts,'status')));
+
+if (!file_exists(PHPL_STATE)) {
+    passthru("phpl-reload --all -q");
+}
+require_once PHPL_STATE;
