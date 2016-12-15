@@ -36,7 +36,7 @@ function config_read() {
 
     $root = SdlParser::parseFile(PHPL_CONFIG);
 
-    @list($items) = $root->getChildrenByTagName('items');
+    $items = $root->getChildrenByTagName('items')[0];
     if (!$items) {
         fprintf(STDERR, "Error: No items defined in configuration file!\n");
         exit(1);
@@ -50,6 +50,12 @@ function config_read() {
         $_CONFIG['items'][] = [
             $name, $type, $attr
         ];
+    }
+
+    $theme = $root->getChildrenByTagName('theme');
+    $theme = end($theme);
+    if ($theme) {
+        $_CONFIG['theme'] = $theme->getValue();
     }
 }
 

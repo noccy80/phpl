@@ -97,6 +97,7 @@ function reload_theme() {
     $style = null;
 
     $theme = $_CONFIG['theme'];
+
     $theme_file = __DIR__."/../themes/{$theme}.theme";
     if (!file_exists($theme_file)) {
         printf("Error: The theme %s could not be found at %s\n", $theme, $theme_file);
@@ -106,19 +107,34 @@ function reload_theme() {
     $vars = [];
     $rules = [];
     $rule = null;
+    $pragma_256color = false;
     foreach ($data as $line) {
-        if (strpos('$pragma(',$line)!==false) {
-            printf("pragma: %s\n", $line);
-        } elseif (strpos('$set(',$line)!==false) {
-            printf("set: %s\n", $line);
+        if (substr($line,0,2)=="//") {
+            continue;
+        } elseif (preg_match("/\\\$pragma\((.+?)\)/", $line, $match)) {
+            switch ($match[1]) {
+                case '256color':
+                    $pragma_256color = true;
+                    break;
+            }
+        } elseif (preg_match("/\\\$set\((.+?),(.+?)\)/", $line, $match)) {
+            $vars[$match[1]] = $match[2];
         } elseif (strpos($line,'{')!==false) {
             $rule = trim($line,'{ ');
             $rules[$rule] = [];
         } elseif ($line == '}') {
             $rule = null;
         } else {
+            if (!$rule) {
+                printf("Unexpected %s\n", $line);
+                continue;
+            }
             list($k,$v) = array_map('trim',explode(":",$line));
-            $rules[$rule][$k] = trim($v,'; ');
+            $val = trim($v,'; ');
+            if ($val[0]=='"') { $val = trim($val,'"'); }
+            elseif ($val[0]=="'") { $val = trim($val,"'"); }
+            elseif ($val[0]=="%") { $val = $vars[substr($val,1)]; }
+            $rules[$rule][$k] = $val;
         }
     }
 

@@ -115,11 +115,13 @@ $colors = [
     "BR_CYAN"   => 14,
     "BR_WHITE"  => 15,
     "BOLD"      => 1,
+    "COLOR256"  => 256,
+    "COLOR24M"  => 1024,
 ];
 foreach ($colors as $name=>$index) define($name, $index);
 
 function color($string) {
-
+    if (is_int($string)) return $string;
     switch ($string) {
         case 'none': return NONE;
         case 'black': return BLACK;
@@ -138,6 +140,15 @@ function color($string) {
         case 'bright-magenta': return BR_MAGENTA;
         case 'bright-cyan': return BR_CYAN;
         case 'bright-white': return BR_WHITE;
+        default:
+            if ($string[0]=='#') {
+                $r = floor(hexdec(substr($string,1,2)) / 42);
+                $g = floor(hexdec(substr($string,3,2)) / 42);
+                $b = floor(hexdec(substr($string,5,2)) / 42);
+                $a = COLOR256 + 16 + 36*$r + 6*$g + $b;
+                // $a = COLOR24M + $r<<16 + $g<<8 + $b; 
+                return $a;
+            }
     }
     return NONE;
 }
@@ -145,10 +156,32 @@ function color($string) {
 function style($fg=NONE,$bg=NONE,$attr=NONE) {
     $sgr=[];
     if ($fg>NONE) {
-        $sgr[] = ($fg>=8)?82+$fg:30+$fg;
+        if ($fg>=COLOR24M) {
+            $sgr[] = 38; $sgr[] = 2;
+            $fg = $fg - COLOR24M;
+            $sgr[] = $fg>>16 & 0xFF;
+            $sgr[] = $fg>>8 & 0xFF;
+            $sgr[] = $fg & 0xFF;
+        } elseif ($fg>=COLOR256) {
+            $sgr[] = 38; $sgr[] = 5;
+            $sgr[] = $fg - COLOR256;
+        } else {
+            $sgr[] = ($fg>=8)?82+$fg:30+$fg;
+        }
     }
     if ($bg>NONE) {
-        $sgr[] = ($bg>=8)?92+$bg:40+$bg;
+        if ($fg>=COLOR24M) {
+            $sgr[] = 48; $sgr[] = 2;
+            $bg = $bg - COLOR24M;
+            $sgr[] = $bg>>16 & 0xFF;
+            $sgr[] = $bg>>8 & 0xFF;
+            $sgr[] = $bg & 0xFF;
+        } elseif ($fg>=COLOR256) {
+            $sgr[] = 48; $sgr[] = 5;
+            $sgr[] = $bg - COLOR256;
+        } else {
+            $sgr[] = ($bg>=8)?92+$bg:40+$bg;
+        }
     }
     if ($attr>0) {
         if (($attr & BOLD) == BOLD) $sgr[] = "1";

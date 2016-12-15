@@ -1,7 +1,7 @@
 <?php
 
 define("PHPL_MODULES", __DIR__."/../modules");
-define("PHPL_THEMEs", __DIR__."/../themes");
+define("PHPL_THEMES", __DIR__."/../themes");
 define("PHPL_CACHE_DIR", __DIR__."/../cache");
 define("PHPL_STATE", __DIR__."/../cache/current");
 define("PHPL_CACHE_PROMPT", __DIR__."/../cache/prompt.dat");

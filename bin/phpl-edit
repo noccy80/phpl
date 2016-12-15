@@ -138,20 +138,22 @@ if (cmdl_get($opts,'list')) {
     
     config_item_edit($edit,$attr);
     config_write();
-    if (RELOAD) passthru("phpl-reload --prompt");
+    if (RELOAD) passthru("phpl-reload --all");
 } elseif (cmdl_get($opts,'E')) {
     passthru("editor ".escapeshellarg(PHPL_CONFIG));
     if (RELOAD) passthru("phpl-reload --prompt");
-} else {
-    print_help();
-}
-
-
-if (($theme = cmdl_get($opts,'theme'))) {
+} elseif (($theme = cmdl_get($opts,'theme'))) {
     if (!file_exists(PHPL_THEMES."/{$theme}.theme")) {
         printf("Error: No such theme, %s\n", $theme);
         exit(1);
     }
     $_CONFIG['theme'] = $theme;
     config_write();
+    if (RELOAD) passthru("phpl-reload --theme");
+} else {
+    print_help();
+    return;
 }
+
+config_write();
+
