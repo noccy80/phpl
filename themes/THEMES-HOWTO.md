@@ -9,6 +9,8 @@ Themes HowTo
     Y - any item of type Y
     Y:Z - any item of type Y with status Z
     Y.X - any item of type Y with class X
+    .X:Z - any of class X with status Z
+    ...
 
 Examples:
 
@@ -16,6 +18,7 @@ Examples:
     git.vcs         // A git panel having the class 'vcs'
     status:good     // Status ($) when all went ok
     status:bad      // Status ($) when someting failed
+    :good           // Everything that is good
 
 
 ## Attributes

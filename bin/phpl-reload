@@ -122,8 +122,10 @@ function reload_theme() {
         } elseif (preg_match("/\\\$set\((.+?),(.+?)\)/", $line, $match)) {
             $vars[$match[1]] = $match[2];
         } elseif (strpos($line,'{')!==false) {
-            $rule = trim($line,'{ ');
-            $rules[$rule] = [];
+            $rule = explode(' ',trim($line,'{ '));
+            foreach ($rule as $r) {
+                $rules[$r] = [];
+            }
         } elseif ($line == '}') {
             $rule = null;
         } else {
@@ -136,7 +138,9 @@ function reload_theme() {
             if ($val[0]=='"') { $val = trim($val,'"'); }
             elseif ($val[0]=="'") { $val = trim($val,"'"); }
             elseif ($val[0]=="%") { $val = $vars[substr($val,1)]; }
-            $rules[$rule][$k] = $val;
+            foreach ($rule as $r) {
+                $rules[$r][$k] = $val;
+            }
         }
     }
 

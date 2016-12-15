@@ -21,10 +21,10 @@ loadavg {
 diskfree {
     background: gray;
 }
-diskfree.good {
+diskfree:good {
     color: green;
 }
-diskfree.bad {
+diskfree:bad {
     color: bright-red;
 }
 
@@ -32,10 +32,10 @@ diskfree.bad {
 status {
     color: bright-white;
 }
-status.good {
+status:good {
     background: green;
 }
-status.bad {
+status:bad {
     background: red;
 }
 

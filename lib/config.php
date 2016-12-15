@@ -239,7 +239,7 @@ function demo($item) {
     foreach ($attr as $k=>$v) {
         if (array_key_exists($k,$type)) {
             switch ($type[$k]) {
-                case 'bool':
+                case 'boolean':
                     $attr[$k] = (bool)$v;
                     break;
                 case 'int':

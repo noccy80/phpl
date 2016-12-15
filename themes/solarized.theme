@@ -30,7 +30,7 @@ path {
 }
 
 loadavg {
-    background: %base01;
+    background: %base02;
     color: %base2;
 }
 
@@ -38,8 +38,18 @@ loadavg {
     background: %base01;
     color: %base1;
 }
-
-.sys {
+.system {
+    background: %base01;
+    color: %base2
+}
+.info {
     background: %base02;
     color: %base2
+}
+status {
+    background: %base03;
+}
+
+status:bad {
+    color: %red;
 }

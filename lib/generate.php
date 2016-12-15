@@ -56,15 +56,16 @@ class Theme {
         $this->rules = $rules;
     }
     public function __invoke(Panel $panel) {
-        $applied = [];
+        $applied = ['background'=>'none','color'=>'none'];
         foreach ($this->rules as $rule=>$apply) {
             if ($rule=='*') {
                 $applied = array_merge($applied, $apply);
                 continue;
             }
             $class = $panel->get('class');
+            $status = $panel->get('status');
             $type = $panel->type();
-            if (preg_match('/^('.$type.'){0,1}(\.'.$class.'){0,1}$/', $rule)) {
+            if (preg_match('/^('.$type.'){0,1}(\.'.$class.'){0,1}(\:'.$status.'){0,1}$/', $rule)) {
                 $applied = array_merge($applied, $apply);
                 continue;
             }

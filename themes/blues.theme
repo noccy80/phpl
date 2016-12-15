@@ -1,0 +1,15 @@
+* {
+    background: blue;
+    color: white;
+    pad-before: 1;
+    pad-after: 1;
+}
+
+vcs {
+    background: bright-blue;
+}
+
+.system .info {
+    background: bright-blue;
+    color: bright-white;
+}

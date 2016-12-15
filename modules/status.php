@@ -16,7 +16,7 @@ function _status(array $opts=[]) {
     $character = (posix_getuid()==0)?$opts[STATUS_CHARACTER_ROOT]:$opts[STATUS_CHARACTER];
     $style = (LAST_STATUS)?$opts[STATUS_STYLE_BAD]:$opts[STATUS_STYLE_GOOD];
     
-    return panel( $character, [ 'class' => ((LAST_STATUS>0)?'bad':'good') ], 'status' );
+    return panel( $character, [ 'class'=>'shell', 'status' => ((LAST_STATUS>0)?'bad':'good') ], 'status' );
 }
 
 module("status", "Command status and root indicator");

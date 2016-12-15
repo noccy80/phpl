@@ -4,3 +4,14 @@
     pad-before: 1;
     pad-after: 1;
 }
+
+.system {
+    color: bright-white;
+}
+.info {
+    color: white;
+}
+status:bad {
+    color: black;
+    background: white;
+}

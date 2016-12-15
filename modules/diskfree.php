@@ -8,7 +8,7 @@ function _diskfree(array $opts=[]) {
     $total = disk_total_space(WORKING_DIR);
     $pc = (100/$total)*$free;
 
-    $class = ($pc<5)?'bad':'good';
+    $status = ($pc<5)?'bad':'good';
     
     $units = [ "B", "KB", "MB", "GB" ];
     do {
@@ -16,7 +16,7 @@ function _diskfree(array $opts=[]) {
         if (($free < 1024) || (count($units)==0)) {
             $icon = ""; // 
 
-            return panel(sprintf("{$icon} %.1f%s", $free, $unit), [ 'class'=>$class ], 'diskfree' );
+            return panel(sprintf("{$icon} %.1f%s", $free, $unit), [ 'class'=>'system', 'status'=>$status ], 'diskfree' );
         }
         $free /= 1024;
     } while (true);

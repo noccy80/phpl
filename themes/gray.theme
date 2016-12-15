@@ -11,10 +11,10 @@ path {
 .vcs {
     color: black;
 }
-.good {
+:good {
     color: gray;
 }
-.bad {
+:bad {
     color: red;
 }
 .system {
