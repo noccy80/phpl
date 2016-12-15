@@ -61,22 +61,27 @@ function config_read() {
 
 function config_write() {
     assert(PHPL_CONFIG);
-    global $_CONFIG;
+    global $_CONFIG, $_MODULES;
 
     $root = new SdlTag();
 
     $items = $root->createChild("items");
     foreach ($_CONFIG['items'] as $item) {
+        $opts = array_map(function ($opt) { return $opt->name; }, $_MODULES[$item[0]]->opts);
         $conf = $items->createChild($item[0]);
         $conf->setValue($item[1]);
         foreach ($item[2] as $k=>$v) {
-            $conf->setAttribute($k,$v);
+            if (in_array($k,$opts)) {
+                $conf->setAttribute($k,$v);
+            } else
+                printf("Warning: No such option %s for %s\n", $k, $item[0]);
         }
     }
 
     $root->createChild("theme")->setValue($_CONFIG['theme']);
 
     file_put_contents(PHPL_CONFIG, $root->encode());
+    config_read();
 }
 
 function config_item_delete($name) {
