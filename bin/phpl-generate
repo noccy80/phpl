@@ -13,9 +13,10 @@ function print_help() {
     printf("\n");
 }
 
-$opts = cmdl_parse("hr:",[
+$opts = cmdl_parse("hd:s:",[
     "h" =>  "help",
-    "r" =>  "read:",
+    "d" =>  "dir:",
+    "s" =>  "status:",
 ]);
 
 if (cmdl_get($opts,'help')) {
