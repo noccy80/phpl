@@ -13,7 +13,7 @@ define("GIT_SHOW_TAG", "show_tag");
 define("GIT_SHOW_STATUS", "show_status");
 
 // Module
-function _git(array $opts=[]) {
+function _git(array $opts) {
 
     $git = "env LANG=C git";
 
@@ -35,7 +35,7 @@ function _git(array $opts=[]) {
             $marks[] = ICON_GIT_NEED_PULL_SYMBOL.$match[1];
     }
 
-    if ($opts[GIT_SHOW_TAG]==true) {
+    if ($opts[GIT_SHOW_TAG]) {
         $tag = exec("{$git} describe --tags 2>/dev/null");
         if ($tag)
             $marks[] = ICON_GIT_TAG.(strpos($tag,'-')?substr($tag,0,strpos($tag,'-')).'+':$tag);

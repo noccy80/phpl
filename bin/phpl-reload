@@ -47,17 +47,18 @@ function reload_prompt() {
             continue;
         }
         $opts = $_MODULES[$item[1]]->opts;
-        $defs = [];
-        $type = [];
+        $defs = []; $type = []; $maps = [];
         foreach ($opts as $opt) {
             $defs[$opt->key] = $opt->def;
-            $type[$opt->key] = $opt->type;
+            $type[$opt->name] = $opt->type;
+            $maps[$opt->name] = $opt->key;
         }
         // Coerce types
+        $aout = [];
         foreach ($attr as $k=>$v) {
             if (array_key_exists($k,$type)) {
                 switch ($type[$k]) {
-                    case 'bool':
+                    case 'boolean':
                         $attr[$k] = (bool)$v;
                         break;
                     case 'int':
@@ -69,9 +70,10 @@ function reload_prompt() {
                     default:
                         QUIET or printf("Warning: Unknown option type %s", $type[$k]);
                 }
+                $aout[$maps[$k]] = $v;
             }
         }
-        $segments[] = sprintf("_%s(%s)", $item[1], var_export(array_merge($defs,$attr),true));
+        $segments[] = sprintf("_%s(%s)", $item[1], var_export(array_merge($defs,$aout),true));
     }
 
     $modsrc = [];

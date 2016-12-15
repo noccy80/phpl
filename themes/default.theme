@@ -9,6 +9,11 @@ path {
     background: cyan;
 }
 
+loadavg {
+    color: bright-yellow;
+    background: gray;
+}
+
 .vcs {
     background: blue;
 }
@@ -27,12 +32,3 @@ status.bad {
     background: red;
 }
 
-loadavg {
-    color: bright-yellow;
-    background: gray;
-}
-
-text.test {
-    background: white;
-    color: black;
-}

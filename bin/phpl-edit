@@ -142,7 +142,16 @@ if (cmdl_get($opts,'list')) {
 } elseif (cmdl_get($opts,'E')) {
     passthru("editor ".escapeshellarg(PHPL_CONFIG));
     if (RELOAD) passthru("phpl-reload --prompt");
+    exit;
 } elseif (($theme = cmdl_get($opts,'theme'))) {
+    if ($theme == 'list') {
+        $themes = glob(PHPL_THEMES."/*.theme");
+        printf("Installed themes:\n");
+        foreach ($themes as $theme) {
+            printf(" - %s\n", basename($theme,".theme"));
+        }
+        exit(0);
+    }
     if (!file_exists(PHPL_THEMES."/{$theme}.theme")) {
         printf("Error: No such theme, %s\n", $theme);
         exit(1);
