@@ -45,21 +45,18 @@ echo " Done"
 if [ ! -d ~/bin ]; then
     echo "Skipping automatic symlink creation, please add $INSTALL_DIR/bin to your path."
 else
-    echo "Creating symlinks:"
+    echo -n "Creating symlinks:"
     for TOOL in $INSTALL_DIR/bin/*; do
-        echo " ~> $(basename $TOOL)"
+        # echo " ~> $(basename $TOOL)"
         test -e ~/bin/$(basename $TOOL) || ln -s $TOOL ~/bin/$(basename $TOOL)
     done
 fi
+echo " Done"
 
-echo "Checking .bashrc..."
 grep "powerline.sh" ~/.bashrc &>/dev/null
-if [ $? == 0 ]; then
-    echo "Already installed into .bashrc"
-else
+if [ $? != 0 ]; then
     echo "source $INSTALL_DIR/powerline.sh" >> ~/.bashrc
-    echo "Updated .bashrc"
+    echo "Added phpl to .bashrc"
 fi
 
-echo "Updating prompt..."
 $INSTALL_DIR/bin/phpl-reload --all

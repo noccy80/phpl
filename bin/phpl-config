@@ -76,7 +76,7 @@ if (cmdl_get($opts,'list')) {
     foreach ($items as $item) {
         $attrs = [];
         foreach ($item[2] as $k=>$v) {
-            $attrs[] = sprintf("%s=%s", $k, $v);
+            $attrs[] = sprintf("\e[94m%s\e[0m=\e[1m%s\e[0m", $k, var_export($v,true));
         }
         $attr = join(" ",$attrs);
         printf("  \e[1m%-15s\e[0m %-15s [\e[37;44m%s\e[0m]\n    %s\n", $item[0], $item[1], demo($item), $attr);

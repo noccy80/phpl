@@ -5,11 +5,16 @@
     pad-after: 1;
 }
 
-vcs {
+.vcs {
     background: bright-blue;
+    color:blue;
 }
 
 .system .info {
     background: bright-blue;
     color: bright-white;
+}
+
+:bad {
+    color: red;
 }
