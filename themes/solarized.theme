@@ -1,6 +1,10 @@
-$pragma(256color)
-
 // Solarized color theme
+// http://ethanschoonover.com/solarized
+
+$pragma(truecolor)
+
+// --- palette ---
+
 $set(base03,#002b36)
 $set(base02,#073642)
 $set(base01,#586e75)
@@ -18,6 +22,8 @@ $set(blue,#268bd2)
 $set(cyan,#2aa198)
 $set(green,#859900)
 
+// --- theme ---
+
 * {
     color: %base0;
     background: %base03;
@@ -25,8 +31,9 @@ $set(green,#859900)
     pad-after: 1;
 }
 
-path {
+XXpath {
     color: %base1;
+    background: %base02;
 }
 
 loadavg {

@@ -142,11 +142,19 @@ if (cmdl_get($opts,'list')) {
     exit;
 } elseif (($theme = cmdl_get($opts,'theme'))) {
     if ($theme == 'list') {
+        $current = $_CONFIG['theme'];
         $themes = glob(PHPL_THEMES."/*.theme");
-        printf("Installed themes:\n");
+        printf("Installed themes:\n\n");
         foreach ($themes as $theme) {
-            printf(" - %s\n", basename($theme,".theme"));
+            $_CONFIG['theme'] = basename($theme,".theme");
+            config_write();
+            $example = trim(exec("phpl-reload --theme; phpl-generate -r"));
+            printf("%20s %s\n", basename($theme,".theme"), $example);
         }
+        printf("\n");
+        $_CONFIG['theme']=$current;
+        config_write();
+        exec("phpl-reload --theme");
         exit(0);
     }
     if (!file_exists(PHPL_THEMES."/{$theme}.theme")) {

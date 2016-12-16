@@ -147,3 +147,4 @@ Things that need improving:
  *  Icons should be customizable, maybe as icon packs.
  *  Better handling of 256-color and 24b-color stuff. Pragmas are in place but not active.
  *  Need to strip UTF-8 when outputting to a physical console as most icons fail there.
+ *  Solarized theme need dark and light variants, and `$include()` must be added to theme parser.
