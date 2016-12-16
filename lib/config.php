@@ -67,9 +67,9 @@ function config_write() {
 
     $items = $root->createChild("items");
     foreach ($_CONFIG['items'] as $item) {
-        $opts = array_map(function ($opt) { return $opt->name; }, $_MODULES[$item[0]]->opts);
-        $conf = $items->createChild($item[0]);
-        $conf->setValue($item[1]);
+        $opts = array_map(function ($opt) { return $opt->name; }, $_MODULES[$item[1]]->opts);
+        $conf = $items->createChild($item[1]);
+        $conf->setValue($item[0]);
         foreach ($item[2] as $k=>$v) {
             if (in_array($k,$opts)) {
                 $conf->setAttribute($k,$v);
@@ -99,7 +99,7 @@ function config_item_edit($name, array $attr) {
     global $_CONFIG;
     $filtered = [];
     foreach ($_CONFIG['items'] as $item) {
-        if ($item[1]==$name) {
+        if ($item[0]==$name) {
             $item[2] = array_merge($item[2],$attr);
         }
         $filtered[] = $item;
