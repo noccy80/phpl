@@ -139,3 +139,11 @@ By default, escape sequences will be enclosed within a block of `\[ .. \]`, but 
 can be disabled by passing `-r`. You can also specify the working directory with `-d`
 and exit code of last process with `-s`.
 
+## ToDo/Known Issues
+
+Things that need improving:
+
+ *  The theme parser shouldn't be line-oriented nor care about whitespace.
+ *  Icons should be customizable, maybe as icon packs.
+ *  Better handling of 256-color and 24b-color stuff. Pragmas are in place but not active.
+ *  Need to strip UTF-8 when outputting to a physical console as most icons fail there.

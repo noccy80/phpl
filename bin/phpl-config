@@ -40,7 +40,6 @@ $opts = cmdl_parse("hvi:d:e:a:b:s:t:n:lLE",[
     "s" => "set:",
     "n" => "name:",
     "N" => "no-reload",
-           "class:",
     "l" => "list",
     "L" => "list-modules",
            "theme:"
@@ -51,7 +50,7 @@ if (cmdl_get($opts,'help')) {
     exit(0);
 }
 
-define("VERBOSE", (int)cmdl_get($opts,'verbose'));
+// define("VERBOSE", (int)cmdl_get($opts,'verbose'));
 define("RELOAD", !cmdl_get($opts,'no-reload'));
 define("QUIET", false);
 
