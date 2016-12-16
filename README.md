@@ -20,10 +20,10 @@ To activate, reopen your console or source your `.bashrc` again:
 
 Add git status in the best position:
 
-    $ phpl-edit -igit 
+    $ phpl-config -igit 
 
 Add git status to beginning of prompt:
 
-    $ phpl-edit -igit --first
+    $ phpl-config -igit --first
 
 Use `-h` for help.

@@ -86,7 +86,7 @@ if (cmdl_get($opts,'list')) {
     foreach ($_MODULES as $module) {
         printf(" - \e[1m%s\e[0m: %s\n", $module->name, $module->info);
         foreach ($module->opts as $opt) {
-            printf("    + <%s>%s - %s (default:%s)\n", $opt->type, $opt->name, $opt->descr, $opt->def);
+            printf("    + <%s>%s - %s (default:\e[1m%s\e[0m)\n", $opt->type, $opt->name, $opt->descr, var_export($opt->def,true));
         }
     }
 } elseif (($delete = cmdl_get($opts,'delete'))) {
