@@ -11,10 +11,11 @@ function print_help() {
     printf("            -d,--dir <path>         Specify working directory\n");
     printf("            -s,--status <code>      Status of last command\n");
     printf("            -r,--raw                Don't escape ansi for PS1\n");
+    printf("            -q                      Quiet, don't output anything\n");
     printf("\n");
 }
 
-$opts = cmdl_parse("hd:s:r",[
+$opts = cmdl_parse("hd:s:rq",[
     "h" =>  "help",
     "r" =>  "raw",
     "d" =>  "dir:",
@@ -33,4 +34,11 @@ define("LAST_STATUS", max(0,(int)cmdl_get($opts,'status')));
 if (!file_exists(PHPL_STATE)) {
     passthru("phpl-reload --all -q");
 }
-require_once PHPL_STATE;
+
+if (cmdl_get($opts,'q')) {
+    ob_start();
+    require_once PHPL_STATE;
+    ob_end_clean();
+} else {
+    require_once PHPL_STATE;
+}
