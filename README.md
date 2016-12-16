@@ -64,3 +64,38 @@ This will have the following result:
  *  The status indicator (`$`) will be colored green if the last command was successful, and
     red otherwise.
 
+## More commands
+
+You can list all the available modules using `phpl-config -L`:
+
+    $  phpl-config -L
+    Available modules and options:
+    - command: Execute a command and display the output
+        = exec<string> - Command to execute (default:'')
+        = class<string> - The class to use (default:'system')
+    - diskfree: Show disk free space
+        = si<boolean> - Use SI magnitudes (MiB,KiB etc) (default:true)
+    - git: Git VCS status
+        = tag<boolean> - Show tag (default:false)
+        = status<boolean> - Show branch and status (default:true)
+    ...
+
+You can also list the currently added items using `phpl-config -l`.
+
+### Adding multiples
+
+To add more than one of a module, you need to name them differently. Do this using the
+`-n` or `--name` option when inserting the items:
+
+    $ phpl-config -i text -n hello -s text="hello"
+    $ phpl-config -i text -n world -s text="world"
+
+### Placement
+
+You can add items to different parts of the prompt:
+
+ *  `--before` places the item before the specified name
+ *  `--after` places it after the specified
+ *  `--first` places it in the beginning of the prompt
+ *  `--last` places it in the absolute end of the prompt
+ *  `--best` places it as the second last item of the prompt
