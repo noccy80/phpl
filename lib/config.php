@@ -88,7 +88,7 @@ function config_item_delete($name) {
     global $_CONFIG;
     $filtered = [];
     foreach ($_CONFIG['items'] as $item) {
-        if ($item[1]!=$name) {
+        if ($item[0]!=$name) {
             $filtered[] = $item;
         }
     }

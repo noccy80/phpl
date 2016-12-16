@@ -18,27 +18,29 @@ cp -R bin $INSTALL_DIR/
 cp powerline.sh $INSTALL_DIR/
 echo " Done"
 
-echo "Installing modules:"
+echo -n "Installing modules:"
 MODULES_SRC=./modules
 MODULES_DST=$INSTALL_DIR/modules
 if [ ! -d $MODULES_DST ]; then
     mkdir $MODULES_DST
 fi
 for MODULE in $MODULES_SRC/*.php; do
-    echo " ~> $(basename $MODULE .php)"
+    # echo " ~> $(basename $MODULE .php)"
     cp $MODULE $MODULES_DST
 done
+echo " Done"
 
-echo "Installing themes:"
+echo -n "Installing themes:"
 THEMES_SRC=./themes
 THEMES_DST=$INSTALL_DIR/themes
 if [ ! -d $THEMES_DST ]; then
     mkdir $THEMES_DST
 fi
 for THEME in $THEMES_SRC/*.theme; do
-    echo " ~> $(basename $THEME .theme)"
+    # echo " ~> $(basename $THEME .theme)"
     cp $THEME $THEMES_DST
 done
+echo " Done"
 
 if [ ! -d ~/bin ]; then
     echo "Skipping automatic symlink creation, please add $INSTALL_DIR/bin to your path."

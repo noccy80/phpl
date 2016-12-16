@@ -82,11 +82,11 @@ if (cmdl_get($opts,'list')) {
         printf("  \e[1m%-15s\e[0m %-15s [\e[37;44m%s\e[0m]\n    %s\n", $item[0], $item[1], demo($item), $attr);
     }
 } elseif (cmdl_get($opts,'list-modules')) {
-    printf("Available modules:\n");
+    printf("Available modules and options:\n");
     foreach ($_MODULES as $module) {
         printf(" - \e[1m%s\e[0m: %s\n", $module->name, $module->info);
         foreach ($module->opts as $opt) {
-            printf("    + <%s>%s - %s (default:\e[1m%s\e[0m)\n", $opt->type, $opt->name, $opt->descr, var_export($opt->def,true));
+            printf("    = \e[94m%s\e[0m<\e[36m%s\e[0m> - %s (default:\e[1m%s\e[0m)\n", $opt->name, $opt->type, $opt->descr, var_export($opt->def,true));
         }
     }
 } elseif (($delete = cmdl_get($opts,'delete'))) {
