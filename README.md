@@ -86,6 +86,7 @@ Some modules let you pick a class using options, others will use a fixed class. 
  *  `.system` - Information about the system, disk, ram, cpu etc.
  *  `.user` - Information about the user, name, etc.
  *  `.info` - Generic information such as time, text etc.
+ *  `.vcs` - Information from VCS, such as git, svn, hg etc.
 
 ## More commands
 

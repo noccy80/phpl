@@ -143,11 +143,11 @@ function color($string) {
         case 'bright-white': return BR_WHITE;
         default:
             if ($string[0]=='#') {
-                $r = floor(hexdec(substr($string,1,2)) / 42);
-                $g = floor(hexdec(substr($string,3,2)) / 42);
-                $b = floor(hexdec(substr($string,5,2)) / 42);
-                $a = COLOR256 + 16 + 36*$r + 6*$g + $b;
-                // $a = COLOR24M + $r<<16 + $g<<8 + $b; 
+                $r = hexdec(substr($string,1,2));
+                $g = hexdec(substr($string,3,2));
+                $b = hexdec(substr($string,5,2));
+                //$a = COLOR256 + 16 + 36*floor($r/42) + 6*floor($g/42) + floor($b/42);
+                $a = [$r,$g,$b]; 
                 return $a;
             }
     }
@@ -156,33 +156,29 @@ function color($string) {
 
 function style($fg=NONE,$bg=NONE,$attr=NONE) {
     $sgr=[];
-    if ($fg>NONE) {
-        if ($fg>=COLOR24M) {
-            $sgr[] = 38; $sgr[] = 2;
-            $fg = $fg - COLOR24M;
-            $sgr[] = $fg>>16 & 0xFF;
-            $sgr[] = $fg>>8 & 0xFF;
-            $sgr[] = $fg & 0xFF;
-        } elseif ($fg>=COLOR256) {
-            $sgr[] = 38; $sgr[] = 5;
-            $sgr[] = $fg - COLOR256;
-        } else {
-            $sgr[] = ($fg>=8)?82+$fg:30+$fg;
-        }
+    if (is_array($fg)) {
+        $sgr[] = 38; $sgr[] = 2;
+        $sgr[] = $fg[0];
+        $sgr[] = $fg[1];
+        $sgr[] = $fg[2];
+    } elseif ($fg==NONE) {
+    } elseif ($fg>=COLOR256) {
+        $sgr[] = 38; $sgr[] = 5;
+        $sgr[] = $fg - COLOR256;
+    } else {
+        $sgr[] = ($fg>=8)?82+$fg:30+$fg;
     }
-    if ($bg>NONE) {
-        if ($fg>=COLOR24M) {
-            $sgr[] = 48; $sgr[] = 2;
-            $bg = $bg - COLOR24M;
-            $sgr[] = $bg>>16 & 0xFF;
-            $sgr[] = $bg>>8 & 0xFF;
-            $sgr[] = $bg & 0xFF;
-        } elseif ($fg>=COLOR256) {
-            $sgr[] = 48; $sgr[] = 5;
-            $sgr[] = $bg - COLOR256;
-        } else {
-            $sgr[] = ($bg>=8)?92+$bg:40+$bg;
-        }
+    if (is_array($bg)) {
+        $sgr[] = 48; $sgr[] = 2;
+        $sgr[] = $bg[0];
+        $sgr[] = $bg[1];
+        $sgr[] = $bg[2];
+    } elseif ($bg==NONE) {
+    } elseif ($bg>=COLOR256) {
+        $sgr[] = 48; $sgr[] = 5;
+        $sgr[] = $bg - COLOR256;
+    } else {
+        $sgr[] = ($bg>=8)?92+$bg:40+$bg;
     }
     if ($attr>0) {
         if (($attr & BOLD) == BOLD) $sgr[] = "1";
