@@ -122,3 +122,19 @@ You can add items to different parts of the prompt:
  *  `--first` places it in the beginning of the prompt
  *  `--last` places it in the absolute end of the prompt
  *  `--best` places it as the second last item of the prompt
+
+### Updating themes
+
+You can reload your theme by switching to it again using `phpl-config`, or by calling
+`phpl-reload`:
+
+    $ phpl-config --theme mytheme
+    $ phpl-reload --theme
+
+### Integrating
+
+To use the prompt in other ansi-capable scenarios, you can call on `phpl-generate`.
+By default, escape sequences will be enclosed within a block of `\[ .. \]`, but this
+can be disabled by passing `-r`. You can also specify the working directory with `-d`
+and exit code of last process with `-s`.
+
