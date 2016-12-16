@@ -37,10 +37,19 @@ To make the prompt less fluffy, you can create a compact style. Create `~/.power
         pad-before: 0;
         pad-after: 0;
     }
+    status path {
+        pad-before: 1;
+    }
 
 Activate the theme using `phpl-config`:
 
     $ phpl-config --theme compact
+
+The prompt will now look like:
+
+    user@hostname ~ $
+
+### Colors and stuff
 
 To add some color to the prompt:
 
@@ -63,6 +72,20 @@ This will have the following result:
  *  All `text` items will be colored white
  *  The status indicator (`$`) will be colored green if the last command was successful, and
     red otherwise.
+
+### Class vs. Status
+
+Some modules will signal a status, usually `good` or `bad`. This status can be used for theming,
+by prefixing it with a colon (`:`):
+
+    diskfree:bad   <-- when you are low on space
+    :good          <-- everything that is good
+
+Some modules let you pick a class using options, others will use a fixed class. Some common are:
+
+ *  `.system` - Information about the system, disk, ram, cpu etc.
+ *  `.user` - Information about the user, name, etc.
+ *  `.info` - Generic information such as time, text etc.
 
 ## More commands
 
