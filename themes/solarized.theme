@@ -31,20 +31,20 @@ path {
 
 loadavg {
     background: %base02;
-    color: %base2;
+    color: %base1;
 }
 
 .vcs {
-    background: %base01;
-    color: %base1;
+    background: %base02;
+    color: %base3;
 }
 .system {
     background: %base01;
-    color: %base2
+    color: %base2;
 }
 .info {
     background: %base02;
-    color: %base2
+    color: %cyan;
 }
 status {
     background: %base03;

@@ -60,3 +60,5 @@ if [ $? != 0 ]; then
 fi
 
 $INSTALL_DIR/bin/phpl-reload --all
+
+echo "Reload your terminal or source $INSTALL_DIR/powerline.sh to activate phpl"
