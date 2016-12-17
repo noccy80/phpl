@@ -16,10 +16,12 @@ define("GIT_SHOW_STATUS", "show_status");
 function _git(array $opts) {
 
     $git = "env LANG=C git";
+    if (!is_dir(".git"))
+        return null;
 
     $branch = exec("{$git} symbolic-ref --short HEAD 2>/dev/null");
-    if (!$branch)
-        return null;
+    //if (!$branch)
+    //    return null;
 
     $marks = [];
 

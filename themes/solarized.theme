@@ -1,6 +1,7 @@
 // Solarized color theme
 // http://ethanschoonover.com/solarized
 
+$source(user.icons)
 $pragma(truecolor)
 
 // --- palette ---

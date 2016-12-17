@@ -1,4 +1,4 @@
-$import(user.icons);
+$source(user.icons);
 
 // Defaults, applies to everything
 * {

@@ -20,8 +20,8 @@ class Theme {
 
         // Strip out all the directives $pragma, $set, $icon etc before parsing
         //echo $theme."\n\n";
-        preg_match_all('/\$(pragma|icon|set|import|include)\((.+?)\)/', $theme, $directives);
-        $theme = preg_replace('/\$(pragma|icon|set|import|include)\((.+?)\)/', "", $theme);
+        preg_match_all('/\$(pragma|icon|set|source|include)\((.+?)\)/', $theme, $directives);
+        $theme = preg_replace('/\$(pragma|icon|set|source|include)\((.+?)\)/', "", $theme);
 
         $d_vars = [];           // vars from $set() directives
         $d_icons = [];          // icons from $icon() directives
@@ -42,7 +42,7 @@ class Theme {
                     list($name,$value) = explode(",",$value,2);
                     $d_icons[$name] = $value;
                     break;
-                case 'import':
+                case 'source':
                     $path = dirname($file).DIRECTORY_SEPARATOR.$value;
                     if (file_exists($path)) 
                         $this->readTheme($path);
@@ -59,6 +59,8 @@ class Theme {
                     list($name,$value) = explode(",",$value,2);
                     $d_vars[$name] = $value;
                     break;
+                default:
+                    printf("Warning: Unsupported directive \$%s\n", $directive);
             }
         }
 
