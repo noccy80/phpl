@@ -7,7 +7,8 @@ function _username(array $opts) {
         'class' => $opts[USERNAME_CLASS]
     ];
     $user = trim(exec("whoami"));
-    return panel($user, $attr, 'username');
+    return panel(icon("username.icon").$user, $attr, 'username');
 }
 module("username", "Username");
 option("class", USERNAME_CLASS, "string", "The class to use", "user");
+seticon("username.icon", "");

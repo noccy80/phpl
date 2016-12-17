@@ -198,6 +198,7 @@ function scan_modules() {
             'info' => $info,
             'tags' => $tags,
             'opts' => [],
+            'icons' => [],
             'src' => $_SOURCE
         ];
     }
@@ -210,6 +211,10 @@ function scan_modules() {
             'descr' => $description,
             'def' => $default,
         ];
+    }
+    function seticon($name, $text) {
+        global $_MODULES, $_CURRENT;
+        $_MODULES[$_CURRENT]->icons[$name] = $text;
     }
     $modules = glob(PHPL_MODULES."/*.php");
     foreach ($modules as $module) {

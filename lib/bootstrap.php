@@ -66,7 +66,3 @@ function icon($name) {
     return array_key_exists($name,PHPL::$THEMEICONS)?PHPL::$THEMEICONS[$name]:
             (array_key_exists($name,PHPL::$ICONS)?PHPL::$ICONS[$name]:null);
 }
-
-function seticon($name, $icon) {
-    PHPL::$ICONS[$name] = $icon;
-}
