@@ -109,7 +109,10 @@ function reload_theme() {
     $vars = [];
     $rules = [];
     $rule = null;
+    
     $pragma_256color = false;
+    $pragma_truecolor = false;
+
     foreach ($data as $line) {
         if (substr($line,0,2)=="//") {
             continue;
@@ -118,6 +121,11 @@ function reload_theme() {
                 case '256color':
                     $pragma_256color = true;
                     break;
+                case 'truecolor':
+                    $pragma_truecolor = true;
+                    break;
+                default:
+                    printf("Warning: Unrecognized pragma %s\n", $match[1]);
             }
         } elseif (preg_match("/\\\$set\((.+?),(.+?)\)/", $line, $match)) {
             $vars[$match[1]] = $match[2];
@@ -144,9 +152,17 @@ function reload_theme() {
         }
     }
 
+    if ($pragma_truecolor) {
+        $head = 'define("PRAGMA_TRUECOLOR", true);';
+    } elseif ($pragma_256color) {
+        $head = 'define("PRAGMA_256COLOR", true);';
+    } else {
+        $head = null;
+    }
+
     $style = '$_THEME = new Theme('.var_export($rules,true).');';
 
-    file_put_contents(PHPL_CACHE_THEME, "<?php {$style}");
+    file_put_contents(PHPL_CACHE_THEME, "<?php {$head} {$style}");
 
 }
 

@@ -1,4 +1,10 @@
 <?php
+/*
+ *  This file is used to support the generation of prompts. It provides the main
+ *  functions used for theming etc.
+ *
+ *
+ **************************************************************************************/
 
 class Panel {
     private $text;
@@ -17,14 +23,14 @@ class Panel {
         $text = $this->text;
         if (!$text) return "";
         if (($before = $this->attr['before'])) {
-            if (is_int($before)) {
+            if (is_numeric($before)) {
                 $text = str_repeat(" ",$before).$text;
             } else {
                 $text = $before.$text;
             }
         }
         if (($after = $this->attr['after'])) {
-            if (is_int($after)) {
+            if (is_numeric($after)) {
                 $text = $text.str_repeat(" ",$after);
             } else {
                 $text = $text.$after;
@@ -47,7 +53,13 @@ class Panel {
 }
 
 class Style {
-
+    const BOLD = 0x01;
+    const ITALIC = 0x02;
+    const UNDERLINE = 0x04;
+    const REVERSE = 0x08;
+    protected $color;
+    protected $background;
+    protected $style;
 }
 
 class Theme {
@@ -71,6 +83,9 @@ class Theme {
             }
         }
         extract($applied, EXTR_PREFIX_ALL, "attr");
+        if (array_key_exists('pad-before', $applied)) $panel->set('before', $applied['pad-before']);
+        if (array_key_exists('pad-after', $applied)) $panel->set('after', $applied['pad-after']);
+        
         $fg = color($attr_color); $bg = color($attr_background);
         return style($fg,$bg);
     }
@@ -124,6 +139,7 @@ foreach ($colors as $name=>$index) define($name, $index);
 function color($string) {
     if (is_int($string)) return $string;
     switch ($string) {
+        case null:
         case 'none': return NONE;
         case 'black': return BLACK;
         case 'red': return RED;
@@ -146,8 +162,11 @@ function color($string) {
                 $r = hexdec(substr($string,1,2));
                 $g = hexdec(substr($string,3,2));
                 $b = hexdec(substr($string,5,2));
-                //$a = COLOR256 + 16 + 36*floor($r/42) + 6*floor($g/42) + floor($b/42);
-                $a = [$r,$g,$b]; 
+                if (defined("PRAGMA_TRUECOLOR")) {
+                    $a = [$r,$g,$b]; 
+                } else {
+                    $a = COLOR256 + 16 + 36*floor($r/42) + 6*floor($g/42) + floor($b/42);
+                }
                 return $a;
             }
     }
