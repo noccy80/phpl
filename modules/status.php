@@ -19,4 +19,4 @@ function _status(array $opts=[]) {
     return panel( $character, [ 'class'=>'shell', 'status' => ((LAST_STATUS>0)?'bad':'good') ], 'status' );
 }
 
-module("status", "Command status and root indicator");
+module("status", "Last command status and uid/root indicator");

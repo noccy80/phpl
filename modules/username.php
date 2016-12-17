@@ -9,6 +9,6 @@ function _username(array $opts) {
     $user = trim(exec("whoami"));
     return panel(icon("username.icon").$user, $attr, 'username');
 }
-module("username", "Username");
+module("username", "The currently logged in/active username");
 option("class", USERNAME_CLASS, "string", "The class to use", "user");
 seticon("username.icon", "");

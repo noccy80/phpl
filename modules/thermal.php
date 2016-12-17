@@ -13,7 +13,7 @@ function _thermal(array $opts) {
     $attr['class'] = $opts[THERMAL_CLASS];
     return panel($text, $attr, 'thermal');
 }
-module("thermal", "Show thermal zone info");
+module("thermal", "Show thermal zone (cpu/gpu/chassis temperature) info from sysfs");
 option("zone", THERMAL_ZONE, OPT_TYPE_STRING, "Thermal zone (from /sys/class/thermal)", "thermal_zone0");
 option("format", THERMAL_FORMAT, OPT_TYPE_STRING, "Format", "%.1fºc");
 option("class", THERMAL_CLASS, OPT_TYPE_STRING, "The class to use", "system");

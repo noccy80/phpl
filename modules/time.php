@@ -16,7 +16,7 @@ function _time(array $opts) {
     if ($opts[TIME_CLASS]) $attr['class'] = $opts[TIME_CLASS];
     return panel($time.@date($opts['format']), $attr, 'time');
 }
-module("time", "Show the current time and/or date");
+module("time", "Show the current time and/or date, and optionally an analog clock");
 option("format", TIME_FORMAT, OPT_TYPE_STRING, "The time format", "H:i");
 option("class", TIME_CLASS, OPT_TYPE_STRING, "The class to use", "info");
-option("analog", TIME_ANALOG, OPT_TYPE_BOOL, "Show an analog watch", false);
+option("analog", TIME_ANALOG, OPT_TYPE_BOOL, "Show an analog clock", false);

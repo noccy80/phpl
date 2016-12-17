@@ -6,8 +6,8 @@ function _hostname(array $opts) {
     $attr = [
         'class' => $opts[HOSTNAME_CLASS]
     ];
-    $host = trim(exec("whoami"));
+    $host = trim(exec("hostname"));
     return panel($host, $attr, 'hostname');
 }
-module("hostname", "Hostname");
+module("hostname", "Show the hostname of the system");
 option("class", HOSTNAME_CLASS, "string", "The class to use", "system");

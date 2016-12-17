@@ -22,5 +22,5 @@ function _diskfree(array $opts=[]) {
     } while (true);
 }
 
-module("diskfree", "Show disk free space", [ "info", "disk" ]);
+module("diskfree", "Display the amount of free disk space for the current path", [ "info", "disk" ]);
 option("si", DISKFREE_UNITS_SI, OPT_TYPE_BOOL, "Use SI magnitudes (MiB,KiB etc)", true);

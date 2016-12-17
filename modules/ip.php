@@ -10,5 +10,5 @@ function _ip(array $opts) {
     ];
     return panel($ip, $attr, 'ip');
 }
-module("ip", "Show the IP of a network device");
+module("ip", "Show the IP of a networking device");
 option("interface", IP_INTERFACE, "string", "The interface to dispaly", "eth0");

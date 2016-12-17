@@ -46,7 +46,7 @@ function _git(array $opts) {
     return panel(sprintf("%s%s %s", icon('git.branch'), $branch, join(" ",$marks)), ['class'=>'vcs'], 'git');
 }
 
-module("git", "Git VCS status", [ "git", "vcs" ]);
+module("git", "Show status from git repositories", [ "git", "vcs" ]);
 option("tag", GIT_SHOW_TAG, OPT_TYPE_BOOL, "Show tag", false);
 option("status", GIT_SHOW_STATUS, OPT_TYPE_BOOL, "Show branch and status", true);
 seticon("git.branch"," "); // "⑂");
