@@ -137,14 +137,13 @@ You can reload your theme by switching to it again using `phpl-config`, or by ca
 To use the prompt in other ansi-capable scenarios, you can call on `phpl-generate`.
 By default, escape sequences will be enclosed within a block of `\[ .. \]`, but this
 can be disabled by passing `-r`. You can also specify the working directory with `-d`
-and exit code of last process with `-s`.
+and exit code of last process with `-s`. To add a newline to the end of the output,
+use `-n`.
 
 ## ToDo/Known Issues
 
 Things that need improving:
 
- *  The theme parser shouldn't be line-oriented nor care about whitespace.
- *  Icons should be customizable, maybe as icon packs.
  *  Better handling of 256-color and 24b-color stuff. Pragmas are in place but not active.
  *  Need to strip UTF-8 when outputting to a physical console as most icons fail there.
- *  Solarized theme need dark and light variants, and `$include()` must be added to theme parser.
+ *  Solarized theme need dark and light variants.

@@ -1,0 +1,15 @@
+
+
+* {
+    pad-before: 0;
+    pad-after: 1;
+}
+
+$icon(git.branch,#)
+$icon(git.need_pull,<)
+$icon(git.need_push,>)
+$icon(git.is_changed,~)
+$icon(git.is_current,)
+
+$icon(loadavg.load,)
+$icon(thermal.temp,)

@@ -12,10 +12,11 @@ function print_help() {
     printf("            -s,--status <code>      Status of last command\n");
     printf("            -r,--raw                Don't escape ansi for PS1\n");
     printf("            -q                      Quiet, don't output anything\n");
+    printf("            -n                      Print a newline after the prompt output\n");
     printf("\n");
 }
 
-$opts = cmdl_parse("hd:s:rq",[
+$opts = cmdl_parse("hd:s:rqn",[
     "h" =>  "help",
     "r" =>  "raw",
     "d" =>  "dir:",
@@ -41,4 +42,7 @@ if (cmdl_get($opts,'q')) {
     ob_end_clean();
 } else {
     require_once PHPL_STATE;
+}
+if (cmdl_get($opts,'n')) {
+    echo "\n";
 }

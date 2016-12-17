@@ -23,35 +23,74 @@ Examples:
 
 ## Attributes
 
+Padding before text:
+
     pad-before: {none|<int>|<string>}
-    Padding before text
+    pad-before: 1;
+
+Padding after text:
     
     pad-after: {none|<int>|<string>}
-    Padding after text
-    
-    color: <color>
-    Foreground color
-    
-    background: <color>
-    Background color
+    pad-after: 1;
 
+Foreground color:
+    
+    color: {none|<colorname>|<hex>}
+    color: #000000;
+
+Background color:
+    
+    background: {none|<colorname>|<hex>}
+    background: white;
+
+Text style (separate multiple with space):
+
+    style: {none,bold,italic,underline}
+    style: bold italic;
 
 ## Variables
 
  * To set: `$set(<name>,<value>)`
  * To reference: `%<name>`
 
+    $set(mycolor,red);
+    .class {
+        color: %mycolor;
+    }
+
 Example:
 
     set(pretty,#4488BB)
     color: %pretty
 
-## Including
+## Including other styles
 
- * `$include(<file>)`: Include the specified file
+ * `$import(<file>)`: Include the file *if it can be found*. Will not report errors.
+ * `$include(<file>)`: Include the specified file, error out if it can not be found.
+
+You can use these two directives to create a theme that uses shared components and allow
+the user to modify aspects of it by creating the appropriate file:
+
+    // This is mytheme-white.theme
+    $include(mytheme.common)
+    $import(mytheme.custom)
+    * { background: white; }
+
+The file `mytheme.custom` will only be included if it is found alongside `mytheme-white.theme`
+while the file `mytheme.common` will always be included.
 
 ## Pragmas
 
- * `$pragma(256color)`: Used to enable 256-color mode
- * `$pragma(16mcolor)`: Used to enable 16.7m color mode
+Don't use the pragmas. They will change a lot.
 
+ * `$pragma(256color)`: Used to enable 256-color mode
+ * `$pragma(truecolor)`: Used to enable 16.7m color mode
+
+## Overriding icons
+
+You can override icons with the `$icon(name,icon)` directive. The following will
+use the letter "Y" as the branch icon for the git module. Unicode is allowed. Do not quote
+the icon string as it is not parsed by the tokenizer but in a preprocessing step. This
+also means that you can not use the character `)` as an icon right now.
+
+    $icon(git.branch,Y)

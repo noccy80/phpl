@@ -3,6 +3,7 @@
 
 require_once __DIR__."/../lib/bootstrap.php";
 require_once __DIR__."/../lib/config.php";
+require_once __DIR__."/../lib/theme.php";
 
 function print_help() {
     printf("phpl-reload: Activate changes to the configuration\n\n");
@@ -94,7 +95,7 @@ function reload_prompt() {
 }
 
 function reload_theme() {
-    global $_CONFIG;
+    global $_CONFIG,$_ICONS;
 
     $style = null;
 
@@ -105,10 +106,13 @@ function reload_theme() {
         printf("Error: The theme %s could not be found at %s\n", $theme, $theme_file);
         exit(1);
     }
+
+    /*
     $data = array_map("trim",file($theme_file,FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES));
     $vars = [];
     $rules = [];
     $rule = null;
+    $icons = [];
     
     $pragma_256color = false;
     $pragma_truecolor = false;
@@ -127,6 +131,8 @@ function reload_theme() {
                 default:
                     printf("Warning: Unrecognized pragma %s\n", $match[1]);
             }
+        } elseif (preg_match("/\\\$icon\((.+?),(.+?)\)/", $line, $match)) {
+            $icons[$match[1]] = $match[2];
         } elseif (preg_match("/\\\$set\((.+?),(.+?)\)/", $line, $match)) {
             $vars[$match[1]] = $match[2];
         } elseif (strpos($line,'{')!==false) {
@@ -159,8 +165,16 @@ function reload_theme() {
     } else {
         $head = null;
     }
+    */
+
+    $themeLoader = new Theme();
+    $themeLoader->readTheme($theme_file);
+    $head = null;
+    $rules = $themeLoader->getRulesets();
+    $icons = $themeLoader->getIcons();
 
     $style = '$_THEME = new Theme('.var_export($rules,true).');';
+    $style.= 'PHPL::$THEMEICONS = '.var_export($icons,true).';';
 
     file_put_contents(PHPL_CACHE_THEME, "<?php {$head} {$style}");
 

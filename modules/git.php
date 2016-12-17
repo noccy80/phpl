@@ -26,24 +26,30 @@ function _git(array $opts) {
     if ($opts[GIT_SHOW_STATUS]==true) {
         exec("{$git} status --porcelain --branch", $status);
         if (count($status)>1)
-            $marks[] = ICON_GIT_BRANCH_CHANGED_SYMBOL;
+            $marks[] = icon("git.is_changed");
         else
-            $marks[] = ICON_GIT_BRANCH_CURRENT;
+            $marks[] = icon("git.is_current");
         if (preg_match('/\[ahead ([0-9]+)\]/', $status[0], $match))
-            $marks[] = ICON_GIT_NEED_PUSH_SYMBOL.$match[1];
+            $marks[] = icon("git.need_push").$match[1];
         if (preg_match('/\[behind ([0-9]+)\]/', $status[0], $match))
-            $marks[] = ICON_GIT_NEED_PULL_SYMBOL.$match[1];
+            $marks[] = icon("git.need_pull").$match[1];
     }
 
     if ($opts[GIT_SHOW_TAG]) {
         $tag = exec("{$git} describe --tags 2>/dev/null");
         if ($tag)
-            $marks[] = ICON_GIT_TAG.(strpos($tag,'-')?substr($tag,0,strpos($tag,'-')).'+':$tag);
+            $marks[] = icon("git.tag").(strpos($tag,'-')?substr($tag,0,strpos($tag,'-')).'+':$tag);
     }
 
-    return panel(sprintf("%s %s %s", ICON_GIT_BRANCH_SYMBOL, $branch, join(" ",$marks)), ['class'=>'vcs'], 'git');
+    return panel(sprintf("%s%s %s", icon('git.branch'), $branch, join(" ",$marks)), ['class'=>'vcs'], 'git');
 }
 
 module("git", "Git VCS status", [ "git", "vcs" ]);
 option("tag", GIT_SHOW_TAG, OPT_TYPE_BOOL, "Show tag", false);
 option("status", GIT_SHOW_STATUS, OPT_TYPE_BOOL, "Show branch and status", true);
+seticon("git.branch"," "); // "⑂");
+seticon("git.is_changed"," "); // "); //🗘");
+seticon("git.is_current","");
+seticon("git.need_push",""); // ⇡");
+seticon("git.need_pull",""); // "⇣");
+seticon("git.tag"," ");
