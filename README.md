@@ -1,10 +1,10 @@
-PHPl: The Ultimate PHP Powerline
+PHPL: The Ultimate PHP Powerline
 ================================
 
 This is a highly customizable powerline prompt generator for PHP. While being 100%
 modular, the configuration is processed into a compact ready-to-use cache. Themes
 are extremely dynamic, making use of a CSS-like syntax to add styles to panels based
-on type, status or class, with 256-color support. And everything can be configured
+on type, status or class, with 256-color/24-bit support. And everything can be configured
 from the command line.
 
 ## Installing
