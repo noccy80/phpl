@@ -1,5 +1,8 @@
 {
     "require": {
         "noccylabs/sdl": "~2.0"
+    },
+    "config": {
+        "vendor-dir":"lib/vendor"
     }
 }
