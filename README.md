@@ -7,6 +7,8 @@ are extremely dynamic, making use of a CSS-like syntax to add styles to panels b
 on type, status or class, with 256-color/24-bit support. And everything can be configured
 from the command line.
 
+![phpl-themes](docs/phpl-themes.jpg)
+
 ## Installing
 
 The recommended method of installing is using the installer, or by using the 
