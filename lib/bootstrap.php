@@ -63,6 +63,9 @@ class PHPL {
 }
 
 function icon($name) {
-    return array_key_exists($name,PHPL::$THEMEICONS)?PHPL::$THEMEICONS[$name]:
+    $val = array_key_exists($name,PHPL::$THEMEICONS)?PHPL::$THEMEICONS[$name]:
             (array_key_exists($name,PHPL::$ICONS)?PHPL::$ICONS[$name]:null);
+    if ((ord($val[0])>0x80) && IS_TTY && !defined('PRAGMA_FORCE_UTF8'))
+        return "";
+    return $val;
 }

@@ -106,7 +106,7 @@ function generate(...$items) {
         if (!($item instanceof Panel))
             continue;
         theme($item);
-        $show[] = $item;
+        $show[] = (string)$item;
     }
     $generated = join("",$show);
     echo $generated;
@@ -213,3 +213,5 @@ function style($fg=NONE,$bg=NONE,$attr=NONE) {
         return "{$pre}{$text}{$post}";
     };
 }
+
+define("IS_TTY",(strpos(exec("tty"),"/dev/tty")===0));

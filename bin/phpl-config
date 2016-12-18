@@ -17,6 +17,7 @@ function print_help() {
     printf("            -E                      Open configuration file in text editor\n");
     printf("            --theme <name>          Change the color theme\n");
     printf("            -h,--help               Show this help\n");
+    printf("            -c,--config             Set a global configuration option\n");
     printf("\n");
     printf("Options:    -b,--before <name>      Insert before specified item\n");
     printf("            -a,--after <name>       Insert after specified item\n");
@@ -28,7 +29,7 @@ function print_help() {
     printf("                Add the git module to the prompt, include tag and branch, place before status\n");
 }
 
-$opts = cmdl_parse("hvi:d:e:a:b:s:t:n:lLE",[
+$opts = cmdl_parse("hvi:d:e:a:b:s:t:n:lLEc:",[
     "h" => "help",
     "i" => "insert:",
     "d" => "delete:",
@@ -42,7 +43,8 @@ $opts = cmdl_parse("hvi:d:e:a:b:s:t:n:lLE",[
     "N" => "no-reload",
     "l" => "list",
     "L" => "list-modules",
-           "theme:"
+           "theme:",
+    "c" => "config:",
 ]);
 
 if (cmdl_get($opts,'help')) {
@@ -148,13 +150,13 @@ if (cmdl_get($opts,'list')) {
         foreach ($themes as $theme) {
             $_CONFIG['theme'] = basename($theme,".theme");
             config_write();
-            $example = trim(exec("phpl-reload --theme; phpl-generate -r"));
+            $example = trim(exec(escapeshellcmd(__DIR__."/phpl-reload")." --theme -q; ".escapeshellcmd(__DIR__."/phpl-generate")." -r"));
             printf("%20s %s\n", basename($theme,".theme"), $example);
         }
         printf("\n");
         $_CONFIG['theme']=$current;
         config_write();
-        exec("phpl-reload --theme");
+        exec(escapeshellcmd(__DIR__."/phpl-reload")." --theme");
         exit(0);
     }
     if (!file_exists(PHPL_THEMES."/{$theme}.theme")) {
@@ -164,6 +166,22 @@ if (cmdl_get($opts,'list')) {
     $_CONFIG['theme'] = $theme;
     config_write();
     if (RELOAD) passthru("phpl-reload --theme");
+} elseif (($config = cmdl_get($opts,'config'))) {
+    if ($config == 'list') {
+        $help = config_option_gethelp();
+        $vals = config_option_getall();
+        printf("Options:\n");
+        foreach ($vals as $key=>$value) {
+            printf("  \e[34;1m%15s\e[0m=\e[36m%-15s \e[32m# %s\e[0m\n", $key, var_export($value,true), $help[$key]);
+        }
+        return;
+    }
+    if (strpos($config,"=")===false) {
+        printf("Error: The --config option requires a key=value pair\n");
+        return;
+    }
+    list ($key,$value) = explode("=",$config,2);
+    config_option_set($key, $value);
 } else {
     print_help();
     return;

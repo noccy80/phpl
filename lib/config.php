@@ -1,6 +1,8 @@
 <?php
 
 require_once __DIR__."/vendor/autoload.php";
+require_once __DIR__."/vartype.php";
+
 use Sdl\Parser\SdlParser;
 use Sdl\SdlTag;
 
@@ -24,10 +26,15 @@ $_CONFIG = [
 $_MODULES = [];
 $_CURRENT = null;
 $_SOURCE  = null;
+$_OPTIONS = [
+    // option nane, value, default value, description
+    "term.colormode" => [ 0, VarType::enum(0,[0,1,2]), "Terminal color mode: 0=16 color, 1=256 color mode and 2=true color mode" ],
+    "term.forceutf8" => [ false, VarType::bool(false), "If true, always output UTF-8 even if running on a console" ],
+];
 
 function config_read() {
     assert(PHPL_CONFIG);
-    global $_CONFIG;
+    global $_CONFIG,$_OPTIONS;
 
     if (!file_exists(PHPL_CONFIG)) {
         config_write();
@@ -36,20 +43,32 @@ function config_read() {
 
     $root = SdlParser::parseFile(PHPL_CONFIG);
 
-    $items = $root->getChildrenByTagName('items')[0];
-    if (!$items) {
-        fprintf(STDERR, "Error: No items defined in configuration file!\n");
+    $items = $root->getChildrenByTagName('items');
+    if (count($items)==0) {
+        fprintf(STDERR, "Error: No items block in configuration file!\n");
         exit(1);
     }
 
     $_CONFIG['items'] = [];
-    foreach ($items->getChildren() as $item) {
+    foreach ($items[0]->getChildren() as $item) {
         $type = $item->getTagName();
         $name = $item->getValue()?:$type;
         $attr = $item->getAttributeStrings();
         $_CONFIG['items'][] = [
             $name, $type, $attr
         ];
+    }
+    $options = $root->getChildrenByTagName('options');
+    if (count($options)>0) {
+        foreach ($options[0]->getChildren() as $option) {
+            $key = $option->getValue();
+            $value = $option->getAttribute("value");
+            if (!array_key_exists($key, $_OPTIONS)) {
+                printf("Warning: No such global option %s\n", $key);
+                continue;
+            }
+            $_OPTIONS[$key][0] = $value;
+        }
     }
 
     $theme = $root->getChildrenByTagName('theme');
@@ -61,7 +80,7 @@ function config_read() {
 
 function config_write() {
     assert(PHPL_CONFIG);
-    global $_CONFIG, $_MODULES;
+    global $_CONFIG, $_OPTIONS, $_MODULES;
 
     $root = new SdlTag();
 
@@ -77,11 +96,55 @@ function config_write() {
                 printf("Warning: No such option %s for %s\n", $k, $item[0]);
         }
     }
-
+    $options = $root->createChild("options");
+    foreach ($_OPTIONS as $key=>$option) {
+        $val = $options->createChild("set");
+        $val->setValue($key);
+        $val->setAttribute("value", $option[0]);
+    }
     $root->createChild("theme")->setValue($_CONFIG['theme']);
 
     file_put_contents(PHPL_CONFIG, $root->encode());
     config_read();
+}
+
+
+function config_option_getall() {
+    global $_OPTIONS;
+    $ret = [];
+    foreach ($_OPTIONS as $k=>$v) {
+        $ret[$k] = $v[0];
+    }
+    return $ret;
+}
+function config_option_gethelp() {
+    global $_OPTIONS;
+    $ret = [];
+    foreach ($_OPTIONS as $k=>$v) {
+        $ret[$k] = $v[2];
+    }
+    return $ret;
+}
+function config_option_get($key) {
+    global $_OPTIONS;
+    if (!array_key_exists($key,$_OPTIONS)) {
+        throw new \Exception("No such global option {$key}");
+    }
+    return $_OPTIONS[$key][0];
+}
+function config_option_set($key,$value) {
+    global $_OPTIONS;
+    if (!array_key_exists($key,$_OPTIONS)) {
+        throw new \Exception("No such global option {$key}");
+    }
+    $opt = $_OPTIONS[$key];
+    if (!$opt[1]->isValid($value)) {
+        throw new \InvalidArgumentException("Invalid value for option {$key}");
+        return;
+    }
+    $cast = $opt[1]->cast($value);
+    $_OPTIONS[$key][0] = $cast;
+    
 }
 
 function config_item_delete($name) {

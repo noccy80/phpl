@@ -43,7 +43,9 @@ function _git(array $opts) {
             $marks[] = icon("git.tag").(strpos($tag,'-')?substr($tag,0,strpos($tag,'-')).'+':$tag);
     }
 
-    return panel(sprintf("%s%s %s", icon('git.branch'), $branch, join(" ",$marks)), ['class'=>'vcs'], 'git');
+    $out = sprintf("%s%s %s", icon('git.branch'), $branch, join(" ",$marks));
+
+    return panel($out, ['class'=>'vcs'], 'git');
 }
 
 module("git", "Show status from git repositories", [ "git", "vcs" ]);
