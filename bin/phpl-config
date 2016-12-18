@@ -15,9 +15,9 @@ function print_help() {
     printf("            -l,--list               List enabled modules\n");
     printf("            -L,--list-modules       List available modules and options\n");
     printf("            -E                      Open configuration file in text editor\n");
-    printf("            --theme <name>          Change the color theme\n");
+    printf("            --theme <name>          Change the color theme (use --theme list for theme list)\n");
     printf("            -h,--help               Show this help\n");
-    printf("            -c,--config             Set a global configuration option\n");
+    printf("            -c,--config             Set a global configuration option (use --config list to list options)\n");
     printf("\n");
     printf("Options:    -b,--before <name>      Insert before specified item\n");
     printf("            -a,--after <name>       Insert after specified item\n");
@@ -68,8 +68,8 @@ if (!file_exists(PHPL_CONFIG)) {
 }
 */
 
-config_read();
 scan_modules();
+config_read();
 
 if (cmdl_get($opts,'list')) {
     $items = config_item_list();

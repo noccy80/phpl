@@ -134,6 +134,26 @@ You can reload your theme by switching to it again using `phpl-config`, or by ca
     $ phpl-config --theme mytheme
     $ phpl-reload --theme
 
+### Tweaks and fixes
+
+Note: You need to call `phpl-reload` manually after changing this setting.
+
+**UTF-8 icons on physical terminal**
+
+PHPL will detect when it is running on an actual tty, to disable unicode icons as these
+rarely comes out as expected. If your tty supports UTF-8, or your terminal is mistaken
+for a tty you can override this behavior:
+
+    $ phpl-config -cterm.forceutf8=true
+
+**Enabling 256-color/truecolor mode**
+
+To enable 256-color mode, use the following:
+
+    $ phpl-config -cterm.colormode=1
+
+Setting it to `0` will revert back to 16-color mode. For truecolor, instead use `2`.
+
 ### Integrating
 
 To use the prompt in other ansi-capable scenarios, you can call on `phpl-generate`.
@@ -146,6 +166,4 @@ use `-n`.
 
 Things that need improving:
 
- *  Better handling of 256-color and 24b-color stuff. Pragmas are in place but not active.
- *  Need to strip UTF-8 when outputting to a physical console as most icons fail there.
  *  Solarized theme need dark and light variants.
