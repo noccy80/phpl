@@ -1,0 +1,36 @@
+$source(user.icons)
+
+$set(white,#FFFFFF)
+$set(gray4,#CCCCCC)
+$set(gray3,#AAAAAA)
+$set(gray2,#888888)
+$set(gray1,#666666)
+$set(black,#222222);
+
+* {
+    color: black;
+    background: %gray3;
+    pad-before: 1;
+    pad-after: 1;
+}
+path {
+    background: %gray4;
+    color: black;
+}
+.system {
+    background: %gray2;
+}
+.vcs {
+    background: %gray3;
+    color: black;
+}
+.info {
+    background: %gray2;
+}
+:good {
+    color: gray;
+}
+:bad {
+    color: red;
+}
+

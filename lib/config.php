@@ -28,8 +28,11 @@ $_CURRENT = null;
 $_SOURCE  = null;
 $_OPTIONS = [
     // option nane, value, default value, description
-    "term.colormode" => [ 0, VarType::enum(0,[0,1,2]), "Terminal color mode: 0=16 color, 1=256 color mode and 2=true color mode" ],
-    "term.forceutf8" => [ false, VarType::bool(false), "If true, always output UTF-8 even if running on a console" ],
+    "term.colormode"    => [ 0, VarType::enum(0,[0,1,2]), "Terminal color mode: 0=16 color, 1=256 color mode and 2=true color mode" ],
+    "term.forceutf8"    => [ false, VarType::bool(false), "If true, always output UTF-8 even if running on a console" ],
+    "cache.enable"      => [ false, VarType::bool(false), "Experimental: Controls whether module output can be cached" ],
+    "cache.ttl"         => [ 15, VarType::int(15), "Experimental: Maximum time a module can be cached in seconds" ],
+    "daemon.enable"     => [ false, VarType::bool(false), "Experimental: Use a resident daemon to serve up the prompts "],
 ];
 
 function config_read() {

@@ -6,9 +6,10 @@ $source(user.icons)
 }
 
 $icon(git.branch,#)
+$icon(git.tag,@)
 $icon(git.need_pull,<)
 $icon(git.need_push,>)
-$icon(git.is_changed,~)
+$icon(git.is_changed,+)
 $icon(git.is_current,)
 
 $icon(loadavg.load,)

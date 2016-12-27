@@ -16,6 +16,7 @@ echo -n "Installing php-powerline:"
 cp -R lib $INSTALL_DIR/
 cp -R bin $INSTALL_DIR/
 cp powerline.sh $INSTALL_DIR/
+cp powerline.fish $INSTALL_DIR/
 echo " Done"
 
 echo -n "Installing modules:"
@@ -60,5 +61,3 @@ if [ $? != 0 ]; then
 fi
 
 $INSTALL_DIR/bin/phpl-reload --all
-
-echo "Reload your terminal or source $INSTALL_DIR/powerline.sh to activate phpl"
