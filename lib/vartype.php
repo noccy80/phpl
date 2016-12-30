@@ -13,6 +13,13 @@ class VarType
     
     public static function bindType($type, callable $valid, callable $caster)
     {
+        $cn = ucwords($type)."Var";
+        $def =  "class {$cn} extends VarType {". 
+                "function __construct(\$def=null,\$conf=null) { ". 
+                "parent::__construct(".var_export($type,true).",\$def,\$conf);".
+                "}}";
+                
+        eval($def);
         self::$TYPES[$type] = [ $valid, $caster ];
     }
 
@@ -69,10 +76,6 @@ class VarType
         return $this->def;
     }
     
-    public function getNullable()
-    {
-        return $this->nullable;
-    }
 }
 
 VarType::bindType("int", "is_numeric", "intval");
