@@ -10,6 +10,7 @@ _TEMPLATE="./powerline.fish"
 case "$1" in
   "install")
     if [ -f "${_FISH_PROMPT}" ]; then
+      echo "Backing up old fish_prompt.fish to fish_prompt.fish.old"
       mv "${_FISH_PROMPT}" "${_FISH_PROMPT}.old"
     fi
     echo "Installing into ${_FISH_PROMPT}"
